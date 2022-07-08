@@ -4,12 +4,6 @@ inputs:
   cloud-repository-url:
     description: 'Url of the cloud repository to sync'
     required: true
-  from-dir:
-    description: 'Path to the current repository directory'
-    required: true
-  to-dir:
-    description: 'Path to the sync repository directory'
-    required: true
 runs:
   using: "composite"
   steps:
@@ -20,10 +14,10 @@ runs:
       run: npm install -g kudusync
       shell: powershell
     - name: Clone cloud repo
-      run: git clone ${{ inputs.cloud-repository-url}} ${{ inputs.from-dir }}
+      run: git clone ${{ inputs.cloud-repository-url}} ..\cloud-repository
       shell: powershell
     - name: Kudusync
-      run: kudusync --fromDir ${{ inputs.from-dir }} --toDir ${{ inputs.to-dir }} --ignore ".git" --nextManifest ../kudusyncmanifest.txt --ignoreManifest
+      run: kudusync --fromDir ..\cloud-repository --toDir .\*.web --ignore ".git" --nextManifest ../kudusyncmanifest.txt --ignoreManifest
       shell: powershell
     - name: Commit and push to Cloud
       run: |
