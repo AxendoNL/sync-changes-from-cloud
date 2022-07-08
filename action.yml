@@ -4,6 +4,9 @@ inputs:
   cloud-repository-url:
     description: 'Url of the cloud repository to sync'
     required: true
+  web-directory:
+    description: 'The path of the .web directory'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -17,7 +20,7 @@ runs:
       run: git clone ${{ inputs.cloud-repository-url}} ..\cloud-repository
       shell: powershell
     - name: Kudusync
-      run: kudusync --fromDir ..\cloud-repository --toDir .\*.web --ignore ".git" --nextManifest ../kudusyncmanifest.txt --ignoreManifest
+      run: kudusync --fromDir ..\cloud-repository --toDir ${{inputs.web-directory}} --ignore ".git" --nextManifest ../kudusyncmanifest.txt --ignoreManifest
       shell: powershell
     - name: Commit and push
       run: C:\.\DeploymentScripts\CommitAndPushToCloud.ps1 "${{github.run_number}}"
