@@ -19,8 +19,6 @@ runs:
     - name: Kudusync
       run: kudusync --fromDir ..\cloud-repository --toDir .\*.web --ignore ".git" --nextManifest ../kudusyncmanifest.txt --ignoreManifest
       shell: powershell
-    - name: Commit and push to Cloud
-      run: |
-            cd ${{ inputs.to-dir }}
-            C:\.\DeploymentScripts\CommitAndPushToCloud.ps1 "${{github.run_number}}"
+    - name: Commit and push
+      run: C:\.\DeploymentScripts\CommitAndPushToCloud.ps1 "${{github.run_number}}"
       shell: powershell
