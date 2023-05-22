@@ -25,8 +25,8 @@ runs:
     - name: Clone cloud repo
       run: git clone ${{ inputs.cloud-repository-url}} ${{ inputs.from-dir }}
       shell: powershell
-    - name: Remove Github PAT from nuget.config
-      run: (Get-Content -path .\NuGet.config -Raw) -replace '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','{PAT}' | Set-Content -Path .\NuGet.config
+    - name: Remove Github PAT from nuget.config # ghp_.{36} matches a string password starting with ghp_ followed by 36 times any character!
+      run: (Get-Content -path .\NuGet.config -Raw) -replace 'key="ClearTextPassword" value="ghp_.{36}"','key="ClearTextPassword" value="{PAT}"' | Set-Content -Path .\NuGet.config
       shell: powershell
     - name: Kudusync
       run: kudusync --fromDir ${{ inputs.from-dir }} --toDir ${{ inputs.to-dir }} --ignore ".git;.github" --nextManifest ../kudusyncmanifest.txt --ignoreManifest
