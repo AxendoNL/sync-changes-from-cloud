@@ -25,11 +25,11 @@ runs:
     - name: Clone cloud repo
       run: git clone ${{ inputs.cloud-repository-url}} ${{ inputs.from-dir }}
       shell: powershell
-    - name: Rempve GitHub PAT fromo nuget.config
+    - name: Remove Github PAT from nuget.config
       run: (Get-Content -path .\NuGet.config -Raw) -replace '${{ inputs.token }}','{PAT}' | Set-Content -Path .\NuGet.config
       shell: powershell
     - name: Kudusync
-      run: kudusync --fromDir ${{ inputs.from-dir }} --toDir ${{ inputs.to-dir }} --ignore ".git" --nextManifest ../kudusyncmanifest.txt --ignoreManifest
+      run: kudusync --fromDir ${{ inputs.from-dir }} --toDir ${{ inputs.to-dir }} --ignore ".git;.github" --nextManifest ../kudusyncmanifest.txt --ignoreManifest
       shell: powershell
     - name: Commit and push to Cloud
       run: |
