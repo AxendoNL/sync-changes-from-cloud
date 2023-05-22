@@ -10,9 +10,9 @@ inputs:
   to-dir:
     description: 'Path to the sync repository directory'
     required: true
-#  token:
-#    description: 'A Github PAT'
-#    required: true
+  token:
+    description: 'Remove Github PAT'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -25,9 +25,9 @@ runs:
     - name: Clone cloud repo
       run: git clone ${{ inputs.cloud-repository-url}} ${{ inputs.from-dir }}
       shell: powershell
-#    - name: Add GitHub PAT to nuget.config
-#      run: (Get-Content -path .\NuGet.config -Raw) -replace '{PAT}','${{ inputs.token }}' | Set-Content -Path .\NuGet.config
-#      shell: powershell
+    - name: Rempve GitHub PAT fromo nuget.config
+      run: (Get-Content -path .\NuGet.config -Raw) -replace '${{ inputs.token }}','{PAT}' | Set-Content -Path .\NuGet.config
+      shell: powershell
     - name: Kudusync
       run: kudusync --fromDir ${{ inputs.from-dir }} --toDir ${{ inputs.to-dir }} --ignore ".git" --nextManifest ../kudusyncmanifest.txt --ignoreManifest
       shell: powershell
